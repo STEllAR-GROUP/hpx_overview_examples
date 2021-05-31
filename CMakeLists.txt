@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
-set(CMAKE_CXX_COMPILER "/opt/apps/clang/11.0.1/bin/clang++")
-set(CMAKE_CXX_STANDARD 17)
+
 project(hpx_overview CXX)
+
 find_package(HPX REQUIRED)
-add_executable(listing3_1 listing3_1.cpp)
-target_link_libraries(listing3_1 HPX::hpx HPX::wrap_main HPX::iostreams_component)
+
+add_subdirectory(reduce)
