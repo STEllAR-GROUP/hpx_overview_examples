@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     // Code when no resilience is added. The code can return incorrect results!
     hpx::future<int> plain_future_2 = hpx::async(vaguely_universal_ans);
 
-    // Adding resilience to throwable_universal_ans by allowing it to "re-run" 
+    // Adding resilience to throwable_universal_ans by allowing it to "re-run"
     // up to n times before giving up.
     hpx::future<int> resilient_future_1 =
         hpx::resiliency::experimental::async_replay(n, throwable_universal_ans);
