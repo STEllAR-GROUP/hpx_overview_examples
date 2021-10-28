@@ -5,5 +5,5 @@ project(hpx_overview CXX)
 find_package(HPX REQUIRED)
 
 add_subdirectory(reduce)
-add_subdirectory(resilience)
+#add_subdirectory(resilience)
 add_subdirectory(async)

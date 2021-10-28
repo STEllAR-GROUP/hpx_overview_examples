@@ -1,7 +1,8 @@
-#include <hpx/hpx_main.hpp> 
+#include <hpx/hpx_main.hpp>   
 #include <hpx/include/lcos.hpp>
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 // Define the function for the factorial
 double factorial(size_t n)
@@ -30,15 +31,21 @@ double taylor(size_t begin, size_t end, size_t n, double x)
 int main(int argc, char *argv[])
 {
  // Compute the Talor series sin(2.0) for 100 iterations
- size_t n = 1;
+ size_t n = 100;
+ size_t partitions = 2;
+ std::vector<hpx::future<double>> res; 
 
- // Launch two concurrent computations of each partial result
- hpx::future<double> f1 = hpx::async(taylor, 0, n / 2, n, 2.);
- hpx::future<double> f2 = hpx::async(taylor, (n / 2) + 1, n, n, 2.);
+ // Launch the computation
+ for(size_t i = 0 ; i < partitions; i++)
+	 res.push_back(hpx::async(taylor, i*n/2, (i+1)*n/2, n, 2.));
 
- // Introduce a barrier to gather the results
- double res = f1.get() + f2.get();
 
- // Print the result
- std::cout << "Sin(2.) = " << res << std::endl;
+ hpx::when_all(res).then([](auto&&f){
+ 	double res = 0;
+	std::vector<hpx::future<double>> futures = f.get();
+	for(size_t i =0; i < futures.size(); i++)
+		res += futures[i].get();
+ 	// Print the result
+ 	std::cout << "Sin(2.) = " << res << std::endl;
+	});
 }
