@@ -20,8 +20,8 @@ int hpx_main(int, char **) {
   auto sum4 = hpx::reduce(hpx::execution::par, v.begin(), v.end(), 0);
 
   ///////////////////////////////////////////////////////////////
-  auto hpx::future<int64_t> sum5 = hpx::reduce(hpx::execution::par(task), v.begin(), v.end(), 0);
-  sum5.get();
+  auto  sum5 = hpx::reduce(hpx::execution::par(hpx::execution::task), v.begin(), v.end(), 0);
+  //sum5.get();
 
   ///////////////////////////////////////////////////////////////
   auto sum6 = hpx::ranges::reduce(v, 0);
@@ -29,8 +29,8 @@ int hpx_main(int, char **) {
   auto sum7 = hpx::ranges::reduce(hpx::execution::par, v, 0);
 
   hpx::cout << sum1 << " " << sum2 << " " << sum3 << " " << sum4 << hpx::endl;
-  hpx::cout << sum5 << hpx::endl;
-  hpx::cout << sum6 << " " << sum7 << hpx::endl;
+  hpx::cout << sum4 << hpx::endl;
+  //hpx::cout << sum5 << " " << sum7 << hpx::endl;
 
 
   return hpx::finalize();
